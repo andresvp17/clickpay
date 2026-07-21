@@ -1,8 +1,10 @@
 package repository;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 import entity.Department;
+import lib.CsvRepo;
 
 interface IDepartmentRepo {
     Department findByID(int id);
@@ -16,11 +18,11 @@ interface IDepartmentRepo {
     void delete(int id);
 }
 
-public class DepartmentRepo implements IDepartmentRepo {
+public class DepartmentRepo extends CsvRepo<Department, Integer> implements IDepartmentRepo {
     List<Department> departments;
 
-    public DepartmentRepo(List<Department> departments) {
-        this.departments = departments;
+    public DepartmentRepo(String csvFilePath) {
+        super(Paths.get(csvFilePath), Department.class);
     }
 
     public Department findByID(int id) {
@@ -47,6 +49,11 @@ public class DepartmentRepo implements IDepartmentRepo {
                 departments.set(i, departmentToUpdate);
             }
         }
+    }
+
+    @Override
+    protected Integer getID(Department entity) {
+        return entity.getId();
     }
 
     public void delete(int id) {

@@ -1,7 +1,10 @@
 package repository;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import entity.Employee;
+import lib.CsvRepo;
 
 interface IEmployeeRepository {
     Employee findByID(int id);
@@ -10,16 +13,16 @@ interface IEmployeeRepository {
 
     void save(Employee employee);
 
-    void delete(int id);
-
     void update(Employee employee);
+
+    void delete(int id);
 }
 
-public class EmployeeRepo implements IEmployeeRepository {
+public class EmployeeRepo extends CsvRepo<Employee, Integer> implements IEmployeeRepository {
     private List<Employee> employees;
 
-    public EmployeeRepo(List<Employee> employees) {
-        this.employees = employees;
+    public EmployeeRepo(String csvPathFile) {
+        super(Paths.get(csvPathFile), Employee.class);
     }
 
     public Employee findByID(int id) {
@@ -30,6 +33,11 @@ public class EmployeeRepo implements IEmployeeRepository {
         }
 
         return null;
+    }
+
+    @Override
+    protected Integer getID(Employee entity) {
+        return entity.getId();
     }
 
     public List<Employee> findAll() {

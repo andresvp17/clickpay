@@ -1,8 +1,10 @@
 package repository;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 import entity.Absences;
+import lib.CsvRepo;
 
 interface IAbsencesRepo {
     Absences findByID(int id);
@@ -16,11 +18,11 @@ interface IAbsencesRepo {
     void delete(int id);
 }
 
-public class AbsencesRepo implements IAbsencesRepo {
+public class AbsencesRepo extends CsvRepo<Absences, Integer> implements IAbsencesRepo {
     List<Absences> absences;
 
-    public AbsencesRepo(List<Absences> absences) {
-        this.absences = absences;
+    public AbsencesRepo(String csvToFile) {
+        super(Paths.get(csvToFile), Absences.class);
     }
 
     public Absences findByID(int id) {
@@ -31,6 +33,11 @@ public class AbsencesRepo implements IAbsencesRepo {
         }
 
         return null;
+    }
+
+    @Override
+    protected Integer getID(Absences entity) {
+        return entity.getId();
     }
 
     public List<Absences> findByEmployeeID(int employeeID) {
