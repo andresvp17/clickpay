@@ -1,7 +1,12 @@
 package entity;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Department {
+  @CsvBindByName(column = "id")
   private int id;
+
+  @CsvBindByName(column = "name")
   private String name;
 
   public Department(int id, String name) {

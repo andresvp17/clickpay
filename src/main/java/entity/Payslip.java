@@ -1,11 +1,24 @@
 package entity;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Payslip {
+  @CsvBindByName(column = "id")
   private int id;
+
+  @CsvBindByName(column = "employee_id")
   private int employeeID;
+
+  @CsvBindByName(column = "period")
   private String period;
+
+  @CsvBindByName(column = "gross_pay")
   private double grossPay;
+
+  @CsvBindByName(column = "deductions")
   private double deductions;
+
+  @CsvBindByName(column = "ney_pay")
   private double netPay;
 
   public Payslip(int id, int employeeID, String period, double grossPay, double deductions, double netPay) {
