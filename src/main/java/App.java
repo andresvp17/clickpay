@@ -5,6 +5,5 @@ import repository.PayslipRepo;
 
 public class App {
   public static void main(String[] args) throws Exception {
-   AbsencesRepo mamita=new AbsencesRepo(String('absences.csv'));
   }
 }
