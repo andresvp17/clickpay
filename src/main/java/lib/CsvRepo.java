@@ -1,11 +1,15 @@
 package lib;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.Optional;
+
+import org.apache.commons.beanutils.Converter;
+import org.apache.commons.beanutils.ConvertUtils;
 
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -56,6 +60,8 @@ public abstract class CsvRepo<T, ID> {
                 return;
             }
         }
+
+        throw new IllegalArgumentException("Entidad con id " + id + " no fue encontrada");
     }
 
     public void delete(ID id) {
@@ -71,8 +77,17 @@ public abstract class CsvRepo<T, ID> {
 
     protected List<T> loadFromFile() {
         if (!Files.exists(filePath)) {
-            return new ArrayList<>(cache);
+            return new ArrayList<>();
         }
+
+        ConvertUtils.register(new Converter() {
+            @Override
+            public <T> T convert(Class<T> type, Object value) {
+                if (value == null)
+                    return null;
+                return (T) LocalDate.parse(value.toString());
+            }
+        }, LocalDate.class);
 
         try (Reader reader = Files.newBufferedReader(filePath)) {
             return new CsvToBeanBuilder<T>(reader)
@@ -87,7 +102,11 @@ public abstract class CsvRepo<T, ID> {
 
     protected void flushToFile() {
         try {
-            Files.createDirectories(filePath.getParent());
+            Path parent = filePath.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+
             try (Writer writer = Files.newBufferedWriter(filePath)) {
                 StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                         .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
@@ -99,7 +118,7 @@ public abstract class CsvRepo<T, ID> {
             }
 
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException("Fallo en escribir el CSV en" + filePath, e);
+            throw new RuntimeException("Fallo en escribir el CSV en " + filePath, e);
         }
     }
 }

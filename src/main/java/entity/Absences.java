@@ -3,7 +3,9 @@ package entity;
 import java.time.LocalDate;
 import com.opencsv.bean.CsvBindByName;
 
-public class Absences {
+import lib.Identifiable;
+
+public class Absences implements Identifiable {
   @CsvBindByName(column = "id")
   private int id;
 
@@ -19,6 +21,9 @@ public class Absences {
   @CsvBindByName(column = "is_unpaid")
   private boolean isUnpaid;
 
+  public Absences() {
+  }
+
   public Absences(int id, int employeeID, LocalDate date, String reason, boolean isUnpaid) {
     this.id = id;
     this.employeeID = employeeID;
@@ -27,7 +32,7 @@ public class Absences {
     this.isUnpaid = isUnpaid;
   }
 
-  public int getId() {
+  public int getID() {
     return id;
   }
 
@@ -45,5 +50,25 @@ public class Absences {
 
   public boolean getIsUnpaid() {
     return isUnpaid;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setEmployeeID(int employeeID) {
+    this.employeeID = employeeID;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
+  public void setUnpaid(boolean isUnpaid) {
+    this.isUnpaid = isUnpaid;
   }
 }

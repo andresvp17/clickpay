@@ -2,7 +2,9 @@ package entity;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class Payslip {
+import lib.Identifiable;
+
+public class Payslip implements Identifiable {
   @CsvBindByName(column = "id")
   private int id;
 
@@ -18,8 +20,10 @@ public class Payslip {
   @CsvBindByName(column = "deductions")
   private double deductions;
 
-  @CsvBindByName(column = "ney_pay")
+  @CsvBindByName(column = "net_pay")
   private double netPay;
+
+  public Payslip() {}
 
   public Payslip(int id, int employeeID, String period, double grossPay, double deductions, double netPay) {
     this.id = id;
@@ -30,7 +34,7 @@ public class Payslip {
     this.netPay = netPay;
   }
 
-  public int getId() {
+  public int getID() {
     return id;
   }
 
@@ -68,5 +72,13 @@ public class Payslip {
 
   public void setPeriod(String period) {
     this.period = period;
+  }
+
+  public void setID(int id) {
+    this.id = id;
+  }
+
+  public void setEmployeeID(int id) {
+    this.employeeID = id;
   }
 }
