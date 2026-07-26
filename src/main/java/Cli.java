@@ -26,7 +26,7 @@ enum Actions {
 }
 
 public class Cli {
-    Actions option = Actions.IDLE;
+    int option = 0;
     boolean run = true;
 
     Scanner sc = new Scanner(System.in);
@@ -55,6 +55,7 @@ public class Cli {
         System.out.println("2.- Consultar Información de Recibo");
         System.out.println("3.- Consultar Información de Departamento");
         System.out.println("4.- Consultar Información de Ausencia");
+        System.out.println("5.- Salir del Programa");
     }
 
     public void getEmployee() {
@@ -100,8 +101,16 @@ public class Cli {
     public void run() {
         while (run) {
             show();
-            option = Actions.values()[sc.nextInt()];
-            switch (option) {
+            option = sc.nextInt();
+
+            while (option < 1 || option > Actions.values().length - 1) {
+                System.out.println("Ingrese una opción válida! (Entre 1 - " + (Actions.values().length - 1) + ")");
+                option = sc.nextInt();
+
+            }
+            Actions action = Actions.values()[option];
+
+            switch (action) {
                 case GET_EMPLOYEE:
                     getEmployee();
                     break;
@@ -115,6 +124,7 @@ public class Cli {
                     getAbsence();
                     break;
                 case EXIT:
+                    System.out.println("Hasta Luego!");
                     run = false;
                     break;
                 default:

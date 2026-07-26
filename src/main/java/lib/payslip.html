@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            font-size: 12px;
+        }
+        .header {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .company-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f6f7;
+            font-weight: bold;
+        }
+        .text-right { text-align: right; }
+        .total-row { font-weight: bold; background-color: #eaecee; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="company-title">ACME Corporation</div>
+        <div>Payslip for Period: ${payPeriod}</div>
+    </div>
+
+    <h3>Employee Information</h3>
+    <p><strong>Name:</strong> ${employeeName} | <strong>ID:</strong> ${employeeId}</p>
+
+    <h3>Earnings & Deductions</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th class="text-right">Earnings</th>
+                <th class="text-right">Deductions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Base Salary</td>
+                <td class="text-right">$${baseSalary}</td>
+                <td class="text-right">-</td>
+            </tr>
+            <tr>
+                <td>Income Tax</td>
+                <td class="text-right">-</td>
+                <td class="text-right">$${taxDeduction}</td>
+            </tr>
+            <tr class="total-row">
+                <td>Net Pay</td>
+                <td colspan="2" class="text-right">$${netPay}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
