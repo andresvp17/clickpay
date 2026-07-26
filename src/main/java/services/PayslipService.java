@@ -1,18 +1,25 @@
 package services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import entity.Employee;
 import entity.Payslip;
 import lib.Utility;
+import repository.EmployeeRepo;
 import repository.PayslipRepo;
 
 public class PayslipService {
     PayslipRepo payslipRepo;
+    EmployeeRepo employeeRepo;
 
-    public PayslipService(PayslipRepo payslipRepo) {
+    public PayslipService(PayslipRepo payslipRepo, EmployeeRepo employeeRepo) {
         this.payslipRepo = payslipRepo;
+        this.employeeRepo = employeeRepo;
     }
 
     public Optional<Payslip> getPayslipByID(int id) {
@@ -78,6 +85,21 @@ public class PayslipService {
         }
 
         payslipRepo.update(payslipToUpdate);
+    }
+
+    public void generate(int id) throws IOException {
+        Payslip payslip = payslipRepo.findByID(id)
+                .orElseThrow(() -> new NoSuchElementException("El recibo con la ID " + id + " no se encontró"));
+
+        Employee employee = employeeRepo.findByID(payslip.getEmployeeID())
+                .orElseThrow(() -> new NoSuchElementException(
+                        "El empleado con la ID " + payslip.getEmployeeID() + " no se encontró"));
+
+        String name = employee.getName() + ' ' + employee.getLastname();
+        Path pdfDir = Path.of("pdfs");
+        Files.createDirectories(pdfDir);
+        Path pathname = pdfDir.resolve("payslip_" + payslip.getID() + ".pdf");
+        payslipRepo.generatePayslip(payslip, name, pathname);
     }
 
     public void deletePayslip(int id) {
