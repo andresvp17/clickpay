@@ -20,6 +20,7 @@ enum Actions {
     IDLE,
     GET_EMPLOYEE,
     GET_PAYSLIP,
+    GENERATE_PAYSLIP,
     GET_DEPARTMENT,
     GET_ABSENCE,
     EXIT
@@ -40,7 +41,7 @@ public class Cli {
     EmployeeService employeeService = new EmployeeService(employeeRepo);
     DepartmentService departmentService = new DepartmentService(departmentRepo);
     AbsencesService absencesService = new AbsencesService(absencesRepo, employeeService);
-    PayslipService payslipService = new PayslipService(payslipRepo);
+    PayslipService payslipService = new PayslipService(payslipRepo, employeeRepo);
 
     public Cli() {
     }
@@ -53,8 +54,10 @@ public class Cli {
 
         System.out.println("1.- Consultar Información de Empleado");
         System.out.println("2.- Consultar Información de Recibo");
-        System.out.println("3.- Consultar Información de Departamento");
-        System.out.println("4.- Consultar Información de Ausencia");
+        System.out.println("3.- Generar Recibo de Pago");
+        System.out.println("4.- Consultar Información de Departamento");
+        System.out.println("5.- Consultar Información de Ausencia");
+        System.out.println("6.- Salir");
     }
 
     public void getEmployee() {
@@ -76,6 +79,18 @@ public class Cli {
         System.out.printf("ID: %d\t EmployeeID: %d\t Period: %s\t GrossPay: %.2f\t Deductions: %.2f\t NetPay: %.2f\n",
                 payslip.get().getID(), payslip.get().getEmployeeID(), payslip.get().getPeriod(),
                 payslip.get().getGrossPay(), payslip.get().getDeductions(), payslip.get().getNetPay());
+    }
+
+    public void generatePayslip() {
+        System.out.print("Ingrese la ID del recibo: ");
+        int id = sc.nextInt();
+
+        try {
+            payslipService.generate(id);
+            System.out.println("Recibo generado correctamente.");
+        } catch (Exception e) {
+            System.out.println("Error al generar el recibo: " + e.getMessage());
+        }
     }
 
     public void getDepartment() {
@@ -107,6 +122,9 @@ public class Cli {
                     break;
                 case GET_PAYSLIP:
                     getPayslip();
+                    break;
+                case GENERATE_PAYSLIP:
+                    generatePayslip();
                     break;
                 case GET_DEPARTMENT:
                     getDepartment();

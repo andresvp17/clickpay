@@ -1,0 +1,11 @@
+bin/
+lib/
+target/
+build/
+.idea/
+.settings/
+*.log
+*.iml
+.project
+.classpath
+*class
