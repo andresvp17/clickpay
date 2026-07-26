@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Base64;
-import java.util.Optional;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
