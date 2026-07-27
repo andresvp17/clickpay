@@ -98,7 +98,7 @@ public class PayslipService {
         String name = employee.getName() + ' ' + employee.getLastname();
         Path pdfDir = Path.of("pdfs");
         Files.createDirectories(pdfDir);
-        Path pathname = pdfDir.resolve("payslip_" + payslip.getID() + ".pdf");
+        Path pathname = pdfDir.resolve("payslip_" + payslip.getPeriod() + "_" + name.replace(" ", "_") + ".pdf");
         payslipRepo.generatePayslip(payslip, name, pathname);
     }
 

@@ -5,21 +5,23 @@
         @page {
             size: A4;
             margin: 20mm;
+            background-color: #000;
         }
         body {
-            font-family: Arial, sans-serif;
-            color: #333;
+            font-family: monospace, Arial, sans-serif;
+            color: white;
+            background-color: #000;
             font-size: 12px;
         }
         .header {
-            border-bottom: 2px solid #2c3e50;
+            border-bottom: 2px solid white;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .company-title {
             font-size: 20px;
             font-weight: bold;
-            color: #2c3e50;
+            color: white;
         }
         table {
             width: 100%;
@@ -27,44 +29,45 @@
             margin-top: 15px;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #2c3e50;
             padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f4f6f7;
+            background-color: #2c3e50;
             font-weight: bold;
         }
         .text-right { text-align: right; }
-        .total-row { font-weight: bold; background-color: #eaecee; }
+        .total-row { font-weight: bold; background-color: #2c3e50; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="company-title">ACME Corporation</div>
-        <div>Payslip for Period: ${payPeriod}</div>
+        <img src="${companyLogo}" alt="Company Logo"/>
+        <div class="company-title">ClickPay</div>
+        <div>Recibo de Pago: ${payPeriod}</div>
     </div>
 
-    <h3>Employee Information</h3>
-    <p><strong>Name:</strong> ${employeeName} | <strong>ID:</strong> ${employeeId}</p>
+    <h3>Información del Empleado</h3>
+    <p><strong>Nombre:</strong> ${employeeName} | <strong>ID:</strong> ${employeeId}</p>
 
-    <h3>Earnings & Deductions</h3>
+    <h3>Percepciones &amp; Deducciones</h3>
     <table>
         <thead>
             <tr>
-                <th>Description</th>
-                <th class="text-right">Earnings</th>
-                <th class="text-right">Deductions</th>
+                <th>Descripción</th>
+                <th class="text-right">Percepciones</th>
+                <th class="text-right">Deducciones</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Base Salary</td>
+                <td>Salario Base</td>
                 <td class="text-right">$${baseSalary}</td>
                 <td class="text-right">-</td>
             </tr>
             <tr>
-                <td>Income Tax</td>
+                <td>Impuesto sobre la Renta</td>
                 <td class="text-right">-</td>
                 <td class="text-right">$${taxDeduction}</td>
             </tr>
